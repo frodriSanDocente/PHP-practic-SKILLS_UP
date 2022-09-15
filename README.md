@@ -1,4 +1,4 @@
-![frodriFulp - GitHub Profile](https://raw.githubusercontent.com/frodriFulp/PHP-practic-SKILLS_UP/propuesta-logo-pfae.png)
+![frodriFulp - GitHub Profile](https://raw.githubusercontent.com/frodriFulp/PHP-practic-SKILLS_UP/main/propuesta-logo-pfae.png)
 # Online Registration Form - PHP practic 1ª part
 
 In this project, you'll build a responsive, mobile-friendly registration form using a wide variety of HTML form input types and attributes. Using the supplied mockup files, you'll build a mobile (optional) and desktop version of the form using media queries, and a "mobile-first" approach (optional).

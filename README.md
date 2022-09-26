@@ -72,23 +72,23 @@ The following directories must exist inside the folder used as a repository:
 
 **public** that contains: 
 
-**css:** this will only contain the .css files used.  
+- **css:** this will only contain the .css files used.  
 
-**images**: if you have used any or added the favicon, if none of the above, add a favicon to your html (64x64).  
+- **images**: if you have used any or added the favicon, if none of the above, add a favicon to your html (64x64).  
 
-**js**: will contain the js in case you need or generate them for the exercise.  
+- **js**: will contain the js in case you need or generate them for the exercise.  
 
-The **index.php** file is that should be outside, in the root directory of public. 
+- The **index.php** file is that should be outside, in the root directory of public. 
 
  
 
 **modules** that contains: 
 
-**include:** will contain all the php files with functionalities.  
+- **include:** will contain all the php files with functionalities.  
 
-**require:** will contain all needed the php files with funcionalities. 
+- **require:** will contain all needed the php files with funcionalities. 
 
-**templates:** will contain the php files that are static or only render html or css content. 
+- **templates:** will contain the php files that are static or only render html or css content. 
 
      
 

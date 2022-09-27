@@ -12,4 +12,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 
+/* Si (llega datos) Entonces
+    tratamos datos
+		Si si hay información Entonces
+				limpiar la información.
+				validar la informaciñon.
+				Si datos necesarios Entonces
+					asegurar de que están bien escrito.
+				SiNo
+					mandamos dato tal cual.
+				Fin Si
+				Mostrar que todos los datos son correctos para enviar a BBDD.
+		SiNo
+			enviar datos necesarios
+		Fin Si
+SiNo
+	avisar no han llegado.
+Fin Si */
+
 ?>

@@ -2,50 +2,125 @@
 require "../require/config.php";
 
 // Define e inicializa las variables que se van a usar del formulario.
-$name = $email = $phone = $address = $city = $communities = $Zcode = $othert = $format = $newscheck ="";
+$name = $email = $phone = $address = $city = $communities = $Zcode = $othert = $format = $newsletter = "";
+/**
+ * Función para limpiar un dato procedentes de un formulario.
+ * 
+ * @param  $data
+ * @return $data
+ */
+function limpiar_dato($data)
+{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
 
+// nombre, email y nº telefono.
+/**
+ * Función para validar nombre que solo contenga letras min y MAY, y espacio en blanco.
+ * 
+ * @param $name
+ * @return boolean
+ */
+function validar_name($name)
+{
+	if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/**
+ * Función que valida un email
+ * 
+ * @param $name
+ * return boolean
+ */
+function validar_email($email)
+{
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+// TODO: Documentar función.
+/**
+ * Validar un número de telefono.
+ * 
+ * @param $phone
+ * @return Boolean
+ */
+function validar_phone($phone)
+{
+	if (!preg_match('/^[0-9]{10}+$/', $phone)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 //Si (llega datos) Entonces
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	print_r ($_POST);
+	echo "<br><strong>Metodo post enviado<strong><br>";
+	if (!empty($_POST["name"]) || !empty($_POST["email"]) || !empty($_POST["phone"])) {
+		echo "<br><strong>Llegan al menos los datos necesarios por post hay datos</strong><br>";
+		$name = limpiar_dato($_POST["name"]);
+		$email = limpiar_dato($_POST["email"]);
+		$phone = limpiar_dato($_POST["phone"]);
+		$address = limpiar_dato($_POST["address"]);
+		$city = limpiar_dato($_POST["city"]);
+		$communities = limpiar_dato($_POST["communities"]);
+		$Zcode = limpiar_dato($_POST["Zcode"]);
+		$format = limpiar_dato($_POST["format"]);
+		$newsletter = limpiar_dato($_POST["newsletter"]);
+		//var_dump($newsletter);
+		//echo "</br>";
+		/* 			$newsletter = filter_input(
+				INPUT_POST,
+				'newsletter',
+				FILTER_SANITIZE_SPECIAL_CHARS,
+				FILTER_REQUIRE_ARRAY
+			); */
+		var_dump($newsletter);
+		// echo "</br>";
 
-        // echo "<br><strong>Metodo post enviado<strong><br>";
-		if (!empty($_POST["name"]) || !empty($_POST["email"]) || !empty($_POST["phone"])) {
-        	echo "<br><strong>name post hay datos<strong><br>";
-			$name = $_POST["name"];
-			$email = $_POST["email"];
-			$phone = $_POST["phone"];
-			$address = $_POST["address"];
-			$city = $_POST["city"];
-			$communities = $_POST["communities"];
-			$Zcode = $_POST["Zcode"];
-			$format = $_POST["format"];
-			$newscheck = $_POST["newscheck"];
-			$othert = $_POST["othert"];
+		// === Usa un array y muestra sus valores separados por coma (o lo que se ponga entre comillas).
+		/* 	$string=implode(", ",$newsletter);
+			echo $string;
+			echo "</br>"; */
+		// === FIN MOSTRAR valores array.
 
-			function limpiar_dato($data){
-				$data = trim($data);
-				$data = stripslashes($data);
-				$data = htmlspecialchars($data);
-			}
+		$othert = limpiar_dato($_POST["othert"]);
+		echo "<strong>Noticias que quiere recibir: $newsletter";
+		var_dump($name);
+
+		echo "<br><strong>Name:</strong> $name <br>";
+		echo "<strong>Telefono:</strong> $phone <br>";
+		echo "<strong>Email: </strong> $email <br>";
+
+		if (validar_name($name)){
+			echo "validada";
+		} else {
+			echo "no valida";
+		};
 
 
-			// nombre, email y nº telefono.
-			function validar_name($name){
-				if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-					return false;
-				} else {
-					return true;
-				}
-			}
-		}
 
+	}
 }
 
 /* Si (llega datos) Entonces
     tratamos datos
 		Si si hay información Entonces
-				limpiar la información.
-				validar la informaciñon.
+				limpiar la información. check!!
+				validar la informacinon.
 				Si datos necesarios Entonces
 					asegurar de que están bien escrito.
 				SiNo
@@ -58,5 +133,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 SiNo
 	avisar no han llegado.
 Fin Si */
-
-?>

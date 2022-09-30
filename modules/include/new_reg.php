@@ -58,7 +58,7 @@ function validar_email($email)
  */
 function validar_phone($phone)
 {
-	if (!preg_match('/^[0-9]{10}+$/', $phone)) {
+	if (!preg_match('/^[0-9]{9}+$/', $phone)) {
 		return false;
 	} else {
 		return true;
@@ -68,13 +68,20 @@ function validar_phone($phone)
 //Si (llega datos) Entonces
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	print_r ($_POST);
-	echo "<br><strong>Metodo post enviado<strong><br>";
+	// echo "<br><strong>Metodo post enviado<strong><br>";
+	// Variables requeridas para enviar a BBDD: name, email y phone.
 	if (!empty($_POST["name"]) || !empty($_POST["email"]) || !empty($_POST["phone"])) {
 		echo "<br><strong>Llegan al menos los datos necesarios por post hay datos</strong><br>";
 		$name = limpiar_dato($_POST["name"]);
 		$email = limpiar_dato($_POST["email"]);
 		$phone = limpiar_dato($_POST["phone"]);
-		$address = limpiar_dato($_POST["address"]);
+
+		// if (isset($_POST["address"])) ? $address = limpiar_dato($_POST["address"]) : $address = NULL;
+		if (isset($_POST["address"])){
+			$address = limpiar_dato($_POST["address"]); 
+		} else{
+			$address = NULL;
+		}
 		$city = limpiar_dato($_POST["city"]);
 		$communities = limpiar_dato($_POST["communities"]);
 		$Zcode = limpiar_dato($_POST["Zcode"]);
@@ -100,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$othert = limpiar_dato($_POST["othert"]);
 		echo "<strong>Noticias que quiere recibir: $newsletter";
 		var_dump($name);
-
+// ==========================  BORRAME
 		echo "<br><strong>Name:</strong> $name <br>";
 		echo "<strong>Telefono:</strong> $phone <br>";
 		echo "<strong>Email: </strong> $email <br>";
@@ -110,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		} else {
 			echo "no valida";
 		};
-
+// ======================  BORRAME
 
 
 	}
@@ -119,6 +126,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 /* Si (llega datos) Entonces
     tratamos datos
 		Si si hay información Entonces
+				Si no llegan variables?**
+					Asignarles NULL.
 				limpiar la información. check!!
 				validar la informacinon.
 				Si datos necesarios Entonces

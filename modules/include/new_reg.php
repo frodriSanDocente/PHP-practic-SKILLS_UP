@@ -1,9 +1,11 @@
 <?php
 require "../require/config.php";
-
+// ======= FUNCIONES Y VARIABLES  ===========
 // Define e inicializa las variables que se van a usar del formulario.
 $name = $email = $phone = $address = $city = $communities = $Zcode = $othert = $format = $newsletter = "";
+// Define e inicializa variables para detectar fallos en las validaciones.
 $name_err = $email_err = $phone_err = false;
+
 /**
  * Función para limpiar un dato procedentes de un formulario.
  * 
@@ -66,6 +68,8 @@ function validar_phone($phone)
 	}
 }
 
+// ======= FUNCIONES Y VARIABLES END ===========
+
 //Si (llega datos) Entonces
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	print_r ($_POST);
@@ -85,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (validar_email($email)) {
 			echo "<script> console.log('email es válido.')</script></br>"; 
 		} else {
-			$email_err = true 
+			$email_err = true; 
 		}
 
 		if (validar_phone($phone)){
@@ -96,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		// Condicion si no se cumple, parar el código.
 		if (validar_name($name) || validar_phone($phone) || validar_email($email)) {
-			Ejecutas el resto
+			// Ejecutas el resto
 			
 			// if (isset($_POST["address"])) ? $address = limpiar_dato($_POST["address"]) : $address = NULL;
 			if (isset($_POST["address"])){
@@ -167,11 +171,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				echo "no valida";
 			};
 			// ======================  BORRAME
+		}else {
+			// Mensaje una de las validaciones a fallado.
+		}	
 			
-			
-		}
 	} else {
-		MEnsaje una de las validaciones no funciona.
+		//Mensaje de valores requerido no han llegado.
 	}
 } else {
 	echo "Método post no ha llegado.";

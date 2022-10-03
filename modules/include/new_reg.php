@@ -95,17 +95,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if (validar_phone($phone)){
 			echo "<script> console.log('telefono es válido.')</script></br>"; 
 		} else {
-			echo "Formato telefono no válido.";
+			$phone_err = true;
 		}
 
-		// Condicion si no se cumple, parar el código.
-		if (validar_name($name) || validar_phone($phone) || validar_email($email)) {
+		// Si todos los datos requeridos cumplen con la validación se sigue tratando los datos, si uno falla, se para y se manda mensaje
+		// de aviso de donde ha fallado.
+		if (validar_name($name) && validar_phone($phone) && validar_email($email)) {
 			// Ejecutas el resto
-			
 			// if (isset($_POST["address"])) ? $address = limpiar_dato($_POST["address"]) : $address = NULL;
 			if (isset($_POST["address"])){
 				$address = limpiar_dato($_POST["address"]); 
-			} else{
+			} else {
 				$address = NULL;
 			}
 			
@@ -121,15 +121,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				$communities = NULL;
 			}
 			
-			
 			if (isset($_POST["Zcode"])){
 				$Zcode = limpiar_dato($_POST["Zcode"]);
 			} else {
 				$Zcode = NULL;
 			}
 			
-			
-			$format = limpiar_dato($_POST["format"]);
+			if (isset($_POST["format"])){
+				$format = limpiar_dato($_POST["format"]);
+			} else {
+				$format = 0;
+			}
 			// $newsletter = limpiar_dato($_POST["newsletter"]);
 			//echo "</br>";
 			/* 			$newsletter = filter_input(
@@ -152,11 +154,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			} else {
 				$othert = NULL;
 			}
-			echo "<strong>Noticias que quiere recibir: $newsletter";
+			
+			//echo "<strong>Noticias que quiere recibir: $newsletter";
 			
 			// ==========================  BORRAME
 			echo "<br><strong>Name:</strong> $name <br>";
 			echo "<strong>Telefono:</strong> $phone <br>";
+			echo "<strong>Email:</strong> $email <br>";
 			echo "<strong>Address:</strong> $address <br>";
 			echo "<strong>City: </strong> $city <br>";
 			echo "<strong>Autonomous communities: </strong> $communities <br>";
@@ -165,18 +169,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			echo "<strong>Newsletter format: </strong> $format <br>";
 			echo "<strong>Other topis...: </strong> $othert <br>";
 			
-			if (validar_name($name)){
+/* 			if (validar_name($name)){
 				echo "validada";
 			} else {
 				echo "no valida";
-			};
+			}; */
 			// ======================  BORRAME
-		}else {
-			// Mensaje una de las validaciones a fallado.
+		} else {
+			
+			echo "Mensaje una de las validaciones a fallado.</br>";
+			if ($name_err == true) {
+				echo "Formato de: $name, <strong>no válido</strong><br>";
+			} elseif ($email_err == true) {
+				echo "Formato de: $email, <strong>no válido</strong><br>";
+			} elseif ($phone_err == true) {
+				echo "Formato de: $phone, <strong>no válido</strong><br>";
+			}
+
+			header('../../public/index.html');
+			// or die();
 		}	
 			
 	} else {
-		//Mensaje de valores requerido no han llegado.
+		echo "Mensaje de valores requerido no han llegado.";
 	}
 } else {
 	echo "Método post no ha llegado.";

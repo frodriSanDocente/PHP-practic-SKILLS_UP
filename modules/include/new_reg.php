@@ -197,22 +197,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	echo "Método post no ha llegado.";
 }
 	
-	/* Si (llega datos) Entonces
+/* Si (llega datos) Entonces✔
     tratamos datos
-	Si si hay información Entonces
-				Si no llegan variables?**
-					Asignarles NULL.
-				limpiar la información. check!!
-				validar la informacinon.
-				Si datos necesarios Entonces
-					asegurar de que están bien escrito.
-				SiNo
-					mandamos dato tal cual.
-				Fin Si
-				Mostrar que todos los datos son correctos para enviar a BBDD.
-		SiNo
-			enviar datos necesarios
-		Fin Si
+	Si datos llegan los datos necesarios entonces✔
+		limpiar la información. ✔
+		//asegurar de que están bien escrito.
+		validar la informacion. ✔
+		Si cumple las validaciones seguimos con el reto de datos.✔
+			Si no llegan variables?**
+				Asignarles NULL. ✔
+			si llegan
+				limpiamos los datos y asignamos a las variables.✔
+				Si hay información Entonces
+					Mostrar que todos los datos son correctos para enviar a BBDD.
+		Si alguna no cumple la validación o todas.
+			Mensaje de aviso de que validación a fallado.
+	SiNo
+		Mensaje de aviso de que no han llegado los datos necesarios.
 SiNo
 	avisar no han llegado.
 Fin Si */

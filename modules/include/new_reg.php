@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			echo "<strong>Newsletter format: </strong> $format <br>";
 			echo "<strong>Other topis...: </strong> $othert <br>";
 			
-/* 			if (validar_name($name)){
+			/* if (validar_name($name)){
 				echo "validada";
 			} else {
 				echo "no valida";
@@ -186,8 +186,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				echo "Formato de: $phone, <strong>no válido</strong><br>";
 			}
 
-			header('../../public/index.html');
-			// or die();
+		/* 	header("Location: ../../public/index.html");    <= Mirar como mandar mensaje a index.html
+			exit(); */
 		}	
 			
 	} else {

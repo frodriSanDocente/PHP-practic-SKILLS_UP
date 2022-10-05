@@ -51,8 +51,6 @@ function validar_email($email)
 	}
 }
 
-
-// TODO: Documentar función.
 /**
  * Validar un número de telefono.
  * 
@@ -70,13 +68,13 @@ function validar_phone($phone)
 
 // ======= FUNCIONES Y VARIABLES END ===========
 
-//Si (llega datos) Entonces
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	//DEBUG
 	print_r ($_POST);
-	// echo "<br><strong>Metodo post enviado<strong><br>";
+	// END DEBUG
 	// Variables requeridas para enviar a BBDD: name, email y phone.
 	if (!empty($_POST["name"]) || !empty($_POST["email"]) || !empty($_POST["phone"])) {
-		echo "<br><strong>Llegan al menos los datos necesarios por post hay datos</strong><br>";
+		echo "<br><strong>Llegan los datos requeridos por post.</strong><br>";
 		$name = limpiar_dato($_POST["name"]);
 		$email = limpiar_dato($_POST["email"]);
 		$phone = limpiar_dato($_POST["phone"]);
@@ -101,7 +99,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		// Si todos los datos requeridos cumplen con la validación se sigue tratando los datos, si uno falla, se para y se manda mensaje
 		// de aviso de donde ha fallado.
 		if (validar_name($name) && validar_phone($phone) && validar_email($email)) {
-			// Ejecutas el resto
+
+			// Forma ternaria de poner un if con solo 2 opciones.
 			// if (isset($_POST["address"])) ? $address = limpiar_dato($_POST["address"]) : $address = NULL;
 			if (isset($_POST["address"])){
 				$address = limpiar_dato($_POST["address"]); 
@@ -129,33 +128,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			
 			if (isset($_POST["format"])){
 				$format = limpiar_dato($_POST["format"]);
+				
 			} else {
 				$format = 0;
 			}
+			
 			// $newsletter = limpiar_dato($_POST["newsletter"]);
 			//echo "</br>";
-			/* 			$newsletter = filter_input(
+			$newsletter = filter_input(
 				INPUT_POST,
 				'newsletter',
 				FILTER_SANITIZE_SPECIAL_CHARS,
 				FILTER_REQUIRE_ARRAY
-			); */
-			//var_dump($newsletter);
-			// echo "</br>";
+			);
+			var_dump($newsletter);
+			echo "<br>Longitud de newsletter: " . count($newsletter) .".";
+
+			echo "</br>";
 			
 			// === Usa un array y muestra sus valores separados por coma (o lo que se ponga entre comillas).
-			/* 	$string=implode(", ",$newsletter);
+			$string=implode(", ",$newsletter);
 			echo $string;
-			echo "</br>"; */
+			echo "</br>";
 			// === FIN MOSTRAR valores array.
 			
 			if (isset($_POST["othert"])){
 				$othert = limpiar_dato($_POST["othert"]);
 			} else {
-				$othert = NULL;
+				$othert = NULL; // Realmente null!?
 			}
 			
-			//echo "<strong>Noticias que quiere recibir: $newsletter";
+			// echo "<strong>Noticias que quiere recibir: $newsletter";
 			
 			// ==========================  BORRAME
 			echo "<br><strong>Name:</strong> $name <br>";
@@ -165,7 +168,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			echo "<strong>City: </strong> $city <br>";
 			echo "<strong>Autonomous communities: </strong> $communities <br>";
 			echo "<strong>Zip Code: </strong> $Zcode <br>";
-			echo "<strong>Newsletters: </strong> $newsletter <br>";
+			//echo "<strong>Newsletters: </strong> $newsletter <br>";
+			echo "<strong>Newsletters(string): </strong> $string <br>";
 			echo "<strong>Newsletter format: </strong> $format <br>";
 			echo "<strong>Other topis...: </strong> $othert <br>";
 			

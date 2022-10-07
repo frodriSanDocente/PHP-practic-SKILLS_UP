@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			si llegan
 				limpiamos los datos y asignamos a las variables.✔
 				Si hay información Entonces
-					Mostrar que todos los datos son correctos para enviar a BBDD.
+					Mostrar que todos los datos son correctos para enviar a BBDD.✔
 		Si alguna no cumple la validación o todas.
 			Mensaje de aviso de que validación a fallado.
 	SiNo

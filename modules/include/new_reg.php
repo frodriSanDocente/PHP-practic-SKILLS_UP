@@ -68,6 +68,12 @@ function validar_phone($phone)
 	}
 }
 
+function dato_reg(){
+	echo "Checkear datos<br>";
+	echo "console.log('ejecutado')";
+	
+}
+
 // ======= FUNCIONES Y VARIABLES END ===========
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -150,27 +156,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			switch ($lengArray) {
 				case 1:
 					if ($newsletter[0] == "HTML") {
-						$checkNewsletter = 100;
+						$checkNewsletter = bindec('100');
 					} elseif ($newsletter[0] == "CSS") {
-						$checkNewsletter = 010;
+						$checkNewsletter = bindec('010');
 					} else {
-						$checkNewsletter = 001;
+						$checkNewsletter = bindec('001');
 					}
 					break;
 				case 2:
 					if ($newsletter[0] != "HTML"){
-						$checkNewsletter = 011;
+						$checkNewsletter = bindec('011');
 					} elseif ($newsletter[0] != "CSS" && $newsletter[1] == "JS") {
-						$checkNewsletter = 101;
+						$checkNewsletter = bindec('101');
 					} else {
-						$checkNewsletter = 110;
+						$checkNewsletter = bindec('110');
 					}
 					break;
 				case 3:
-					$checkNewsletter = 111;
+					$checkNewsletter = bindec('111');
 					break;
 				default:
-					$checkNewsletter = 100;
+					$checkNewsletter = bindec('100');
 			}
 
 			echo "<br>valor a devolver <strong>" . $checkNewsletter . "</strong>";
@@ -203,11 +209,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			echo "<strong>Newsletters(string): </strong> $string <br>";
 			echo "<strong>Newsletter format: </strong> $format <br>";
 			echo "<strong>Other topics...: </strong> $othert <br>";
-			/* if (validar_name($name)){
-				echo "validada";
-			} else {
-				echo "no valida";
-			}; */
 			// ======================  BORRAME
 			
 			// COMPROBAR Que no existen los datos que se van a enviar: nombre, email o telefono.
@@ -224,7 +225,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				$resultado = $stmt->fetchAll();
 				echo "resultado es: " . var_dump($resultado);
 				if ($resultado){
-					echo "La información existe";
+					echo "La información existe.<br>";
+					if (array_key_exists('datoregistrado', $_POST)) {
+						dato_reg();
+					}
+					
+					echo "
+					<form method='post'>
+						<input type='submit' name='datoregistrado'
+								class='button' value='datoregistrado'; />
+					</form>";
 				} else {
 					//realizamos la inserción
 					// INSERT datos a la base de datos;
@@ -239,13 +249,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						$stmt->bindParam(':city', $city, PDO::PARAM_STR);
 						$stmt->bindParam(':state', $communities, PDO::PARAM_STR);
 						$stmt->bindParam(':zipcode', $Zcode, PDO::PARAM_STR);
-						echo "Valor a ingresar: " . $checkNewsletter . "<br>";
 						$stmt->bindParam(':newsletters', $checkNewsletter, PDO::PARAM_INT);
 						$stmt->bindParam(':format_news', $format, PDO::PARAM_INT);
 						$stmt->bindParam(':suggestion', $othert, PDO::PARAM_STR);
-		
+						
 						$stmt->execute();
-						echo "New record created succesfully";
+						echo "New record created succesfully.<br>";
+						echo "Valor a ingresar 3bit: " . $checkNewsletter . "<br>";
 					} catch(PDOException $e) {
 						echo $sql . "<br>" . $e->getMessage();
 					}

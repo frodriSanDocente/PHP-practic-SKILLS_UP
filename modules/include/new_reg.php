@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				case 2:
 					if ($newsletter[0] != "HTML"){
 						$checkNewsletter = 011;
-					} elseif ($newsletter[0] != "CSS" && $newsletter[0] == "JS") {
+					} elseif ($newsletter[0] != "CSS" && $newsletter[1] == "JS") {
 						$checkNewsletter = 101;
 					} else {
 						$checkNewsletter = 110;
@@ -214,44 +214,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			try {
 				$sql = "SELECT * from news_reg WHERE fullname = :fullname OR email = :email OR phone = :phone";
 
-				// $stmt -> execute(['fullname' => $name, 'email'=> $email, 'phone' => $phone]);
 				$stmt = $conn->prepare($sql);
+
 				$stmt->bindParam(":fullname", $name, PDO::PARAM_STR);
 				$stmt->bindParam(":email", $email, PDO::PARAM_STR);
 				$stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
-				$stmt->execute();
-				$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-				// $resultado = $conn->query($sql);
+				$stmt->execute();
+				$resultado = $stmt->fetchAll();
+				echo "resultado es: " . var_dump($resultado);
 				if ($resultado){
 					echo "La información existe";
+				} else {
+					//realizamos la inserción
+					// INSERT datos a la base de datos;
+		
+					try {
+						$sql = "INSERT INTO news_reg (fullname, email, phone, address, city, state, zipcode, newsletters, format_news, suggestion) VALUES (:fullname, :email, :phone, :address, :city, :state, :zipcode, :newsletters, :format_news, :suggestion)";
+						$stmt = $conn->prepare($sql);
+						$stmt->bindParam(':fullname', $name, PDO::PARAM_STR);
+						$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+						$stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
+						$stmt->bindParam(':address', $address, PDO::PARAM_STR);
+						$stmt->bindParam(':city', $city, PDO::PARAM_STR);
+						$stmt->bindParam(':state', $communities, PDO::PARAM_STR);
+						$stmt->bindParam(':zipcode', $Zcode, PDO::PARAM_STR);
+						echo "Valor a ingresar: " . $checkNewsletter . "<br>";
+						$stmt->bindParam(':newsletters', $checkNewsletter, PDO::PARAM_INT);
+						$stmt->bindParam(':format_news', $format, PDO::PARAM_INT);
+						$stmt->bindParam(':suggestion', $othert, PDO::PARAM_STR);
+		
+						$stmt->execute();
+						echo "New record created succesfully";
+					} catch(PDOException $e) {
+						echo $sql . "<br>" . $e->getMessage();
+					}
+					$conn = null;
 				}
 			} catch (PDOException $e){
 				echo $sql . "<br>" . $e->getMessage();
 			}
-			// Si devuelve algo, que 
-			// INSERT datos a la base de datos;
 
-/* 			try {
-				$sql = "INSERT INTO news_reg (fullname, email, phone, address, city, state, zipcode, newsletters, format_news, suggestion) VALUES (:fullname, :email, :phone, :address, :city, :state, :zipcode, :newsletters, :format_news, :suggestion)";
-				$stmt = $conn->prepare($sql);
-				$stmt->bindParam(':fullname', $name, PDO::PARAM_STR);
-				$stmt->bindParam(':email', $email, PDO::PARAM_STR);
-				$stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
-				$stmt->bindParam(':address', $address, PDO::PARAM_STR);
-				$stmt->bindParam(':city', $city, PDO::PARAM_STR);
-				$stmt->bindParam(':state', $communities, PDO::PARAM_STR);
-				$stmt->bindParam(':zipcode', $Zcode, PDO::PARAM_STR);
-				$stmt->bindParam(':newsletters', $checkNewsletter, PDO::PARAM_INT);
-				$stmt->bindParam(':format_news', $format, PDO::PARAM_INT);
-				$stmt->bindParam(':suggestion', $othert, PDO::PARAM_STR);
-
-				$stmt->execute();
-				echo "New record created succesfully";
-			} catch(PDOException $e) {
-				echo $sql . "<br>" . $e->getMessage();
-			}
-			$conn = null; */
 		} else {
 			
 			echo "Mensaje una de las validaciones a fallado.</br>";

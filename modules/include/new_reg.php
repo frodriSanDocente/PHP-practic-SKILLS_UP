@@ -5,6 +5,8 @@ require "../require/config.php";
 $name = $email = $phone = $address = $city = $communities = $Zcode = $othert = $format = $newsletter = "";
 // Define e inicializa variables para detectar fallos en las validaciones.
 $name_err = $email_err = $phone_err = false;
+// Variable que guarda el código en 3bits para enviar.
+$checkNewsletter;
 
 /**
  * Función para limpiar un dato procedentes de un formulario.
@@ -143,6 +145,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			);
 			var_dump($newsletter);
 			echo "<br>Longitud de newsletter: " . count($newsletter) .".";
+			$lengArray = count($newsletter);
+
+			switch ($lengArray) {
+				case 1:
+					if ($newsletter[0] == "HTML") {
+						$checkNewsletter = 100;
+					} elseif ($newsletter[0] == "CSS") {
+						$checkNewsletter = 010;
+					} else {
+						$checkNewsletter = 001;
+					}
+					break;
+				case 2:
+					if ($newsletter[0] != "HTML"){
+						$checkNewsletter = 011;
+					} elseif ($newsletter[0] != "CSS" && $newsletter[0] == "JS") {
+						$checkNewsletter = 101;
+					} else {
+						$checkNewsletter = 110;
+					}
+					break;
+				case 3:
+					$checkNewsletter = 111;
+					break;
+				default:
+					$checkNewsletter = 100;
+			}
+
+			echo "<br>valor a devolver <strong>" . $checkNewsletter . "</strong>";
 
 			echo "</br>";
 			
@@ -171,14 +202,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			//echo "<strong>Newsletters: </strong> $newsletter <br>";
 			echo "<strong>Newsletters(string): </strong> $string <br>";
 			echo "<strong>Newsletter format: </strong> $format <br>";
-			echo "<strong>Other topis...: </strong> $othert <br>";
-			
+			echo "<strong>Other topics...: </strong> $othert <br>";
 			/* if (validar_name($name)){
 				echo "validada";
 			} else {
 				echo "no valida";
 			}; */
 			// ======================  BORRAME
+			
+			// COMPROBAR Que no existen los datos que se van a enviar: nombre, email o telefono.
+			try {
+				$sql = "SELECT * from news_reg WHERE fullname = :fullname OR email = :email OR phone = :phone";
+
+				// $stmt -> execute(['fullname' => $name, 'email'=> $email, 'phone' => $phone]);
+				$stmt = $conn->prepare($sql);
+				$stmt->bindParam(":fullname", $name, PDO::PARAM_STR);
+				$stmt->bindParam(":email", $email, PDO::PARAM_STR);
+				$stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
+				$stmt->execute();
+				$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+				// $resultado = $conn->query($sql);
+				if ($resultado){
+					echo "La información existe";
+				}
+			} catch (PDOException $e){
+				echo $sql . "<br>" . $e->getMessage();
+			}
+			// Si devuelve algo, que 
+			// INSERT datos a la base de datos;
+
+/* 			try {
+				$sql = "INSERT INTO news_reg (fullname, email, phone, address, city, state, zipcode, newsletters, format_news, suggestion) VALUES (:fullname, :email, :phone, :address, :city, :state, :zipcode, :newsletters, :format_news, :suggestion)";
+				$stmt = $conn->prepare($sql);
+				$stmt->bindParam(':fullname', $name, PDO::PARAM_STR);
+				$stmt->bindParam(':email', $email, PDO::PARAM_STR);
+				$stmt->bindParam(':phone', $phone, PDO::PARAM_STR);
+				$stmt->bindParam(':address', $address, PDO::PARAM_STR);
+				$stmt->bindParam(':city', $city, PDO::PARAM_STR);
+				$stmt->bindParam(':state', $communities, PDO::PARAM_STR);
+				$stmt->bindParam(':zipcode', $Zcode, PDO::PARAM_STR);
+				$stmt->bindParam(':newsletters', $checkNewsletter, PDO::PARAM_INT);
+				$stmt->bindParam(':format_news', $format, PDO::PARAM_INT);
+				$stmt->bindParam(':suggestion', $othert, PDO::PARAM_STR);
+
+				$stmt->execute();
+				echo "New record created succesfully";
+			} catch(PDOException $e) {
+				echo $sql . "<br>" . $e->getMessage();
+			}
+			$conn = null; */
 		} else {
 			
 			echo "Mensaje una de las validaciones a fallado.</br>";

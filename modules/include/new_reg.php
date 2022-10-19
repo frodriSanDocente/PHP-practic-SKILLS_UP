@@ -141,8 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				$format = 0;
 			}
 			
-			// $newsletter = limpiar_dato($_POST["newsletter"]);
-			//echo "</br>";
+
+			//Sanitize del array de opciones del checkbox de noticias.
 			$newsletter = filter_input(
 				INPUT_POST,
 				'newsletter',
@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				FILTER_REQUIRE_ARRAY
 			);
 			var_dump($newsletter);
-			echo "<br>Longitud de newsletter: " . count($newsletter) .".";
+			echo "<br>Longitud de newsletter: " . count($newsletter) . ".<br>";
 			$lengArray = count($newsletter);
 
 			switch ($lengArray) {
@@ -205,8 +205,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			echo "<strong>City: </strong> $city <br>";
 			echo "<strong>Autonomous communities: </strong> $communities <br>";
 			echo "<strong>Zip Code: </strong> $Zcode <br>";
-			//echo "<strong>Newsletters: </strong> $newsletter <br>";
 			echo "<strong>Newsletters(string): </strong> $string <br>";
+			echo "<strong>Código a insertar en BBDD de Newsletters: </strong> $checkNewsletter <br>";
 			echo "<strong>Newsletter format: </strong> $format <br>";
 			echo "<strong>Other topics...: </strong> $othert <br>";
 			// ======================  BORRAME
@@ -223,10 +223,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 				$stmt->execute();
 				$resultado = $stmt->fetchAll();
-				echo "resultado es: " . var_dump($resultado);
+				echo "resultado es: " . var_dump($resultado) . "<br>";
 				if ($resultado){
 					echo "La información existe.<br>";
-					if (array_key_exists('datoregistrado', $_POST)) {
+					/* if (array_key_exists('datoregistrado', $_POST)) {
 						dato_reg();
 					}
 					
@@ -234,7 +234,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<form method='post'>
 						<input type='submit' name='datoregistrado'
 								class='button' value='datoregistrado'; />
-					</form>";
+					</form>"; */
 				} else {
 					//realizamos la inserción
 					// INSERT datos a la base de datos;
@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						
 						$stmt->execute();
 						echo "New record created succesfully.<br>";
-						echo "Valor a ingresar 3bit: " . $checkNewsletter . "<br>";
+						echo "Valor a ingresado decimal de 3bit: " . $checkNewsletter . "<br>";
 					} catch(PDOException $e) {
 						echo $sql . "<br>" . $e->getMessage();
 					}

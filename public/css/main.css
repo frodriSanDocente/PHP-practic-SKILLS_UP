@@ -35,6 +35,17 @@ h1 {
   transform: scaleX(0.9);
 }
 
+thead {
+  font-weight: bold;
+  background-color:#2d3945 ;
+  color: white;
+}
+
+th, td {
+  padding: 10px;
+  align-items: center;
+}
+
 .top {
   text-align: center;
   margin-bottom: 40px;
@@ -275,6 +286,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 
 button:active,

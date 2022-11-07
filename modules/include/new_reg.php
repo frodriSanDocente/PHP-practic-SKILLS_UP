@@ -143,12 +143,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			
 
 			//Sanitize del array de opciones del checkbox de noticias.
-			$newsletter = filter_input(
-				INPUT_POST,
-				'newsletter',
-				FILTER_SANITIZE_SPECIAL_CHARS,
-				FILTER_REQUIRE_ARRAY
-			);
+			if (isset($_POST["newsletter"])){
+				$newsletter = filter_input(
+					INPUT_POST,
+					'newsletter',
+					FILTER_SANITIZE_SPECIAL_CHARS,
+					FILTER_REQUIRE_ARRAY
+				);
+
+			} else {
+				$newsletter = ["HTML", "CSS", "JS"];
+			}
 			var_dump($newsletter);
 			echo "<br>Longitud de newsletter: " . count($newsletter) . ".<br>";
 			$lengArray = count($newsletter);

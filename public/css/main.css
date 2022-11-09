@@ -339,7 +339,7 @@ footer {
 
 /*=================== MEDIAS ====================*/
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   * {
     transition: ease all 0.5s;
   }

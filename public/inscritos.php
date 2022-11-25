@@ -26,7 +26,7 @@ $_SERVER['REQUEST_METHOD'] == null;
                 
                 <button type="submit" name="MostrarInscritos">Usuarios Inscritos</button>
             </form>
-            <?php else : ?>
+        <?php else : ?>
                 <?php
                 echo "<div class='wrapper'>";
                 // require __DIR__ .  '/inc/post.php';
@@ -85,10 +85,10 @@ $_SERVER['REQUEST_METHOD'] == null;
                         <td>".$row["suggestion"]."</td>
                         </tr>";
                     }
-                echo "</tr>
-                </table>";
+                    echo "</tr>
+                    </table>";
                 } else {
-                    echo "0 results";
+                    echo "<p> 0 results, no found data.</p><br>";
                 }
                 $conn = null;
                 ?>
